@@ -5,8 +5,12 @@ const Trees = document.getElementById('trees');
 const Ground = document.getElementById('ground');
 const Obstacle = document.getElementById('obstacle');
 
-var posX = 0;
-var keys = [];
+let posX = 100;
+let posY = 230;
+let keys = [];
+let jump = false;
+let fall = false;
+let gameOver = false;
 
 document.addEventListener('keydown', function(event) {
     let key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
@@ -20,8 +24,8 @@ document.addEventListener('keydown', function(event) {
             keys.push('ArrowLeft');
         }
     }
-    if(key == 'ArrowUP') {
-        if(!keys.includes("ArrowUP")) {
+    if(key == 'ArrowUp') {
+        if(!keys.includes("ArrowUp")) {
             keys.push('ArrowUp');
         }
     }
@@ -42,45 +46,81 @@ function run() {
     updateTreePosition();
     updateGroundPosition();
     updateObstaclePosition();
+    setTimeout(updatePlayer, 10);
     setTimeout(run, 50);
 }
 function updatePlayer() {
-    if(!keys.includes("ArrowLeft")) {
-        Player.style.transform = "rotate(7deg)";
+    Player.style.bottom = posY+'px';
+    if(keys.length == 0) {
+        Player.style.backgroundImage = "url('./assets/img/idle.gif')";
+        Player.style.transform = "scaleX(1)";
     }
-    if(!keys.includes("ArrowRight")) {
-        Player.style.transform = "rotate(7deg)";
+    if(keys.includes("ArrowLeft")) {
+        Player.style.backgroundImage = "url('./assets/img/run.gif')";
+        Player.style.transform = "scaleX(-1)";
     }
-    if(!keys.includes("ArrowUp")) {
-        Player.style.backgroundImage = "url('../')";
+    if(keys.includes("ArrowRight")) {
+        Player.style.backgroundImage = "url('./assets/img/run.gif')";
+        Player.style.transform = "scaleX(1)";
+    }
+    if(keys.includes("ArrowUp")) {
+        Player.style.backgroundImage = "url('./assets/img/jump.gif')";
+        if(keys.includes("ArrowLeft")) {
+            Player.style.transform = "scaleX(-1)";
+        }
+        if(keys.includes("ArrowRight")) {
+            Player.style.transform = "scaleX(1)";
+        }
+        if(
+            (!keys.includes("ArrowLeft") && !keys.includes("ArrowLeft"))
+            || (keys.includes("ArrowLeft") && keys.includes("ArrowLeft"))
+        ) {
+            Player.style.backgroundImage = "url('./assets/img/idle.gif')";
+            Player.style.transform = "scaleX(1)";
+        }
+        jump = true;
+    }
+
+    if(posY < 350 && jump && !fall) {
+        posY += 10;
+        if(posY == 350) {
+            fall = true;
+        }
+    }
+    if(posY > 230 && jump && fall) {
+        posY -= 10;
+        if(posY == 230) {
+            jump = false;
+            fall = false;
+        }
     }
 }
 function updateTreePosition() {
-    if(!keys.includes("ArrowLeft")) {
-        posX -= 10;
+    if(keys.includes("ArrowLeft")) {
+        posX += 5;
     }
-    if(!keys.includes("ArrowRight")) {
-        posX += 10;
+    if(keys.includes("ArrowRight")) {
+        posX -= 5;
     }
     Trees.style.backgroundPosition = posX + 'px';
 }
 
 function updateGroundPosition() {
-    if(!keys.includes("ArrowLeft")) {
-        posX -= 10;
+    if(keys.includes("ArrowLeft")) {
+        posX += 5;
     }
-    if(!keys.includes("ArrowRight")) {
-        posX += 10;
+    if(keys.includes("ArrowRight")) {
+        posX -= 5;
     }
     Ground.style.backgroundPosition = posX + 'px';
 }
 
 function updateObstaclePosition() {
-    if(!keys.includes("ArrowLeft")) {
-        posX -= 10;
+    if(keys.includes("ArrowLeft")) {
+        posX += 5;
     }
-    if(!keys.includes("ArrowRight")) {
-        posX += 10;
+    if(keys.includes("ArrowRight")) {
+        posX -= 5;
     }
     Obstacle.style.left = posX+'px';
 }

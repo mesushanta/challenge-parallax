@@ -41,7 +41,7 @@
 #player {
     width: 102px;
     height: 94px;
-    background-image: url('../assets/img/jump.gif');
+    background-image: url('../assets/img/idle.gif');
     background-size: cover;
     position: absolute;
     bottom: 230px;
