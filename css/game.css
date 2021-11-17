@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#bg-layer {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url('../assets/img/11_background.png');
+    background-size: cover;
+    top:0;
+    left: 0;
+    z-index: 1;
+}
+
+#ground {
+    width: 100%;
+    height: 250px;
+    position: absolute;
+    background-repeat: repeat-x;
+    background-image: url('../assets/img/01_ground.png');
+    background-position: center;
+    bottom:0;
+    left: 0;
+    z-index: 99999;
+}
+
+#trees {
+    width: 100%;
+    height: 184px;
+    position: absolute;
+    background-repeat: repeat-x;
+    background-image: url('../assets/img/02_trees _and_bushes.png');
+    background-position: center;
+    bottom:230px;
+    left: 0;
+    z-index: 2;
+}
+
+#player {
+    width: 102px;
+    height: 94px;
+    background-image: url('../assets/img/jump.gif');
+    background-size: cover;
+    position: absolute;
+    bottom: 230px;
+    left: calc(50% - 102px);
+    z-index: 3;
+}
+
+#obstacle {
+    width: 45px;
+    height: 80px;
+    background-image: url('../assets/obstacles/cactus.png');
+    background-size: cover;
+    position: absolute;
+    bottom: 215px;
+    left: 150px;
+    z-index: 3;
+}
