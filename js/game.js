@@ -1,43 +1,88 @@
-const player = document.getElementById('player');
-const trees = document.getElementById('trees');
-const ground = document.getElementById('ground');
-const player_initial_posX = player.style.backgroundPositionX;
-const player_initial_posY = player.style.backgroundPositionY;
 
-player_posX = 0;
-player_PosY = 0;
+const Player = document.getElementById('player');
 
-document.onkeydown = checkKey;
-function checkKey(e) {
-    e = e || window.event;
-    if (e.keyCode == '38') {
-        // up
-        jump();
-        console.log('up');
+const Trees = document.getElementById('trees');
+const Ground = document.getElementById('ground');
+const Obstacle = document.getElementById('obstacle');
+
+var posX = 0;
+var keys = [];
+
+document.addEventListener('keydown', function(event) {
+    let key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
+    if(key == 'ArrowRight') {
+        if(!keys.includes("ArrowRight")) {
+            keys.push('ArrowRight');
+        }
     }
-    else if (e.keyCode == '40') {
-        // down
-        slide();
+    if(key == 'ArrowLeft') {
+        if(!keys.includes("ArrowLeft")) {
+            keys.push('ArrowLeft');
+        }
     }
-    else if (e.keyCode == '37') {
-        // left
-        moveLeft();
+    if(key == 'ArrowUP') {
+        if(!keys.includes("ArrowUP")) {
+            keys.push('ArrowUp');
+        }
     }
-    else if (e.keyCode == '39') {
-        // Right
-        moveRight();
+    if(key == 'ArrowDown') {
+        if(!keys.includes("ArrowDown")) {
+            keys.push('ArrowDown');
+        }
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    let key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown
+    let index = keys.indexOf(key);
+    keys.splice(index, 1);
+});
+
+function run() {
+    updateTreePosition();
+    updateGroundPosition();
+    updateObstaclePosition();
+    setTimeout(run, 50);
+}
+function updatePlayer() {
+    if(!keys.includes("ArrowLeft")) {
+        Player.style.transform = "rotate(7deg)";
+    }
+    if(!keys.includes("ArrowRight")) {
+        Player.style.transform = "rotate(7deg)";
+    }
+    if(!keys.includes("ArrowUp")) {
+        Player.style.backgroundImage = "url('../')";
     }
 }
- function  jump() {
-    console.log('jump');
- }
-function  slide() {
-    console.log('slide');
+function updateTreePosition() {
+    if(!keys.includes("ArrowLeft")) {
+        posX -= 10;
+    }
+    if(!keys.includes("ArrowRight")) {
+        posX += 10;
+    }
+    Trees.style.backgroundPosition = posX + 'px';
 }
-function  moveLeft() {
-    ground.style.backgroundPositionX = '200px';
-    console.log('move left');
+
+function updateGroundPosition() {
+    if(!keys.includes("ArrowLeft")) {
+        posX -= 10;
+    }
+    if(!keys.includes("ArrowRight")) {
+        posX += 10;
+    }
+    Ground.style.backgroundPosition = posX + 'px';
 }
-function  moveRight() {
-    console.log('move right');
+
+function updateObstaclePosition() {
+    if(!keys.includes("ArrowLeft")) {
+        posX -= 10;
+    }
+    if(!keys.includes("ArrowRight")) {
+        posX += 10;
+    }
+    Obstacle.style.left = posX+'px';
 }
+
+run();
