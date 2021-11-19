@@ -251,3 +251,19 @@
     -o-animation: rotating 2s linear infinite;
     animation: rotating 2s linear infinite;
 }
+
+#coins {
+   position: absolute;
+    bottom: 240px;
+    right: 0px;
+    z-index: 4;
+    height: 45px;
+}
+.coin {
+    width: 35px;
+    height: 45px;
+    background-image: url('../assets/points/coins.png');
+    margin: 0 5px;
+    position: relative;
+    display: inline-block;
+}

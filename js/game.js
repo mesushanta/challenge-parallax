@@ -25,27 +25,34 @@ const Obstacles = [
     'medium_square_obstacle',
     'medium_tall_obstacle',
     'medium_wide_obstacle'
-]
+];
+
 let automatic = true;
+
 let posX = 0;
+let posY = 230;
 let cloudPosX = 0;
 let hillsPosX = 0;
-let posY = 230;
+let coinsPosX = 0;
 let keys = [];
 let jump = false;
 let fall = false;
 let gameOver = false;
 let score = 0;
 
-let previous_obstacle = ''
-let Obstacle = '';
+let previous_obstacle = '';
+let Obstacle;
+let previous_coins = '';
+let Coins;
 
 let ObstacleWidth;
 let ObstacleHeight;
 let ObstaclePosX;
 let MaxJump;
+let CoinsWidth;
 
 let new_obstacle = false;
+let new_coins = false;
 
 document.addEventListener('keydown', function(event) {
     event.preventDefault();
@@ -87,6 +94,11 @@ function run() {
             destroyObstacle();
             createObstacle();
         }
+        updateCoins();
+        if(new_obstacle) {
+            destroyCoins();
+            createCoins();
+        }
         getScore();
         updateTreePosition();
         updateGroundPosition();
@@ -95,8 +107,9 @@ function run() {
         updateClouds1Position();
         updateClouds2Position();
         updateHillsPosition();
-        isNotOver();
 
+        updateCoinsPosition();
+        isNotOver();
         setTimeout(run, 10);
     }
     else {
@@ -213,6 +226,16 @@ function updateObstaclePosition() {
     Obstacle.style.left = ObstaclePosX+'px';
 }
 
+function updateCoinsPosition() {
+    // if(keys.includes("ArrowLeft")) {
+    //     posX += 1;
+    // }
+    if(automatic) {
+        coinsPosX -= 4;
+    }
+    Coins.style.left = coinsPosX+'px';
+}
+
 function isNotOver(){
 
     var playerPosY = parseFloat(window.getComputedStyle(Player, null).getPropertyValue("bottom"));
@@ -225,9 +248,8 @@ function isNotOver(){
     {
         gameOver = true;
     }
-
 }
-function  destroyObstacle() {
+function destroyObstacle() {
     if(Obstacle != '' && Obstacle != null) {
         Obstacle.remove();
     }
@@ -240,8 +262,7 @@ function createObstacle() {
     let div = document.createElement('div');
     let obstacle = Obstacles[Math.floor(Math.random() * Obstacles.length)];
     div.id = obstacle;
-    console.log();
-    ObstaclePosX =  ScreenWidth + Math.floor(randomNumberBetween(100,500));
+    ObstaclePosX =  ScreenWidth + Math.floor(randomNumberBetween(100,300));
     div.style.left = ObstaclePosX + 'px';
     document.body.appendChild(div);
     Obstacle = document.getElementById(obstacle);
@@ -274,6 +295,42 @@ function updateRan() {
     }
 }
 
+function updateCoins() {
+    if(automatic) {
+        if(coinsPosX < 0){
+            new_coins = true;
+        }
+        else {
+            new_coins = false;
+        }
+    }
+}
+
+function destroyCoins() {
+    if(Coins != '' && Coins != null) {
+        Coins.remove();
+    }
+}
+function createCoins() {
+    coinsPosX =  ScreenWidth + Math.floor(randomNumberBetween(400,800));
+    let div = document.createElement('div');
+    div.id = 'coins';
+    div.style.left = coinsPosX + 'px';
+    document.body.appendChild(div);
+    coinElements();
+}
+
+function coinElements() {
+    let count = Math.floor(randomNumberBetween(3,7));
+    for(let i=0; i<count; i++) {
+        let coin_div = document.createElement('div');
+        coin_div.classList.add('coin');
+        document.getElementById("coins").appendChild(coin_div);
+    }
+    Coins = document.getElementById("coins");
+    CoinsWidth = count * 45;
+
+}
 
 
 function restart() {
@@ -282,11 +339,15 @@ function restart() {
     gameOver = false;
     destroyObstacle()
     createObstacle();
+    destroyCoins()
+    createCoins();
     score = 0;
     run();
 }
 
+
 Restart.addEventListener('click',restart);
 destroyObstacle()
 createObstacle();
+createCoins();
 run();
