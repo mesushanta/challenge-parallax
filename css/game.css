@@ -23,7 +23,7 @@
     color: #000000;
     font-size: xx-large;
     font-weight: bolder;
-    z-index: 2;
+    z-index: 10;
 }
 
 #result {
@@ -75,6 +75,47 @@
     background-image: url('../assets/img/02_trees _and_bushes.png');
     bottom:230px;
     left: 0;
+    z-index: 4;
+}
+
+#bushes {
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    background-repeat: repeat-x;
+    background-image: url('../assets/img/04_bushes.png');
+    top: 400px;
+    left: 0;
+    z-index: 3;
+}
+#hills {
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    background-repeat: repeat-x;
+    background-image: url('../assets/img/06_hill2.png');
+    top: 300px;
+    left: 0;
+    z-index: 2;
+}
+#distint_clouds {
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    background-repeat: repeat-x;
+    background-image: url('../assets/img/10_distant_clouds.png');
+    top:50px;
+    left: 0;
+    z-index: 2;
+}
+#close_clouds {
+    width: 100%;
+    height: 160px;
+    position: absolute;
+    background-repeat: repeat-x;
+    background-image: url('../assets/img/08_clouds.png');
+    top:200px;
+    left: 0;
     z-index: 2;
 }
 
@@ -86,7 +127,7 @@
     position: absolute;
     bottom: 230px;
     left: calc(50% - 102px);
-    z-index: 3;
+    z-index: 5;
 }
 #player_wrap {
     width: 50px;
@@ -116,7 +157,7 @@
     position: absolute;
     bottom: 215px;
 
-    z-index: 3;
+    z-index: 4;
 }
 #small_tall_obstacle {
     width: 50px;
@@ -125,7 +166,7 @@
     background-repeat: repeat;
     position: absolute;
     bottom: 215px;
-    z-index: 3;
+    z-index: 4;
 }
 #small_tallest_obstacle {
     width: 50px;
@@ -134,7 +175,7 @@
     background-repeat: repeat;
     position: absolute;
     bottom: 215px;
-    z-index: 3;
+    z-index: 4;
 }
 #medium_square_obstacle {
     width: 100px;
@@ -143,7 +184,7 @@
     background-repeat: repeat;
     position: absolute;
     bottom: 215px;
-    z-index: 3;
+    z-index: 4;
 }
 #medium_tall_obstacle {
     width: 100px;
@@ -152,7 +193,7 @@
     background-repeat: repeat;
     position: absolute;
     bottom: 215px;
-    z-index: 3;
+    z-index: 4;
 }
 #medium_wide_obstacle {
     width: 150px;
@@ -161,7 +202,7 @@
     background-repeat: repeat;
     position: absolute;
     bottom: 215px;
-    z-index: 3;
+    z-index: 4;
 }
 #biggest_square_obstacle {
     width: 150px;
@@ -170,7 +211,7 @@
     background-repeat: repeat;
     position: absolute;
     bottom: 215px;
-    z-index: 3;
+    z-index: 4;
 }
 .rotating {
     animation: rotating 5s infinite;

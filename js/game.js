@@ -7,6 +7,10 @@ const Restart = document.getElementById('restart');
 
 const Trees = document.getElementById('trees');
 const Ground = document.getElementById('ground');
+const Clouds1 = document.getElementById('distint_clouds');
+const Clouds2 = document.getElementById('close_clouds');
+const Hills = document.getElementById('hills');
+const Bushes = document.getElementById('bushes');
 
 const ScreenWidth = window.innerWidth;
 
@@ -24,8 +28,10 @@ const Obstacles = [
 ]
 let automatic = true;
 let posX = 0;
+let cloudPosX = 0;
+let hillsPosX = 0;
 let posY = 230;
-let keys = ['ArrowRight'];
+let keys = [];
 let jump = false;
 let fall = false;
 let gameOver = false;
@@ -42,6 +48,7 @@ let MaxJump;
 let new_obstacle = false;
 
 document.addEventListener('keydown', function(event) {
+    event.preventDefault();
     let key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
     if(key == 'ArrowRight') {
         if(!keys.includes("ArrowRight")) {
@@ -67,10 +74,10 @@ document.addEventListener('keydown', function(event) {
 
 document.addEventListener('keyup', function(event) {
     let key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown
-    if(key != 'ArrowRight') {
+    // if(key != 'ArrowRight') {
         let index = keys.indexOf(key);
         keys.splice(index, 1);
-    }
+    // }
 });
 
 function run() {
@@ -85,6 +92,9 @@ function run() {
         updateGroundPosition();
         updateObstaclePosition();
         updatePlayer();
+        updateClouds1Position();
+        updateClouds2Position();
+        updateHillsPosition();
         isNotOver();
 
         setTimeout(run, 10);
@@ -97,7 +107,7 @@ function run() {
     }
 }
 function updatePlayer() {
-    if(keys.length == 0) {
+    if(keys.length == 0  && !automatic) {
         Player.style.backgroundImage = "url('./assets/img/idle.gif')";
         Player.style.transform = "scaleX(1)";
     }
@@ -107,7 +117,7 @@ function updatePlayer() {
         // if(keys.includes("ArrowLeft")) {
         //     Player.style.transform = "scaleX(-1)";
         // }
-        if(keys.includes("ArrowRight")) {
+        if(automatic) {
             Player.style.transform = "scaleX(1)";
         }
         jump = true;
@@ -116,7 +126,7 @@ function updatePlayer() {
     //     Player.style.backgroundImage = "url('./assets/img/run.gif')";
     //     Player.style.transform = "scaleX(-1)";
     // }
-    else if(automatic || keys.includes("ArrowRight")) {
+    else if(automatic) {
         Player.style.backgroundImage = "url('./assets/img/run.gif')";
         Player.style.transform = "scaleX(1)";
     }
@@ -146,17 +156,48 @@ function updateTreePosition() {
     // if(keys.includes("ArrowLeft")) {
     //     posX += 1;
     // }
-    if(automatic || keys.includes("ArrowRight")) {
+    if(automatic) {
         posX -= 2;
     }
     Trees.style.backgroundPosition = posX + 'px';
+}
+function updateHillsPosition() {
+    // if(keys.includes("ArrowLeft")) {
+    //     posX += 1;
+    // }
+    if(automatic) {
+        hillsPosX -= 0.8;
+    }
+    Hills.style.backgroundPosition = hillsPosX + 'px';
+    Bushes.style.backgroundPosition = hillsPosX + 'px';
+
+}
+
+function updateClouds1Position() {
+    // if(keys.includes("ArrowLeft")) {
+    //     posX += 1;
+    // }
+    if(automatic) {
+        cloudPosX -= 0.2;
+    }
+    Clouds1.style.backgroundPosition = cloudPosX + 'px';
+}
+
+function updateClouds2Position() {
+    // if(keys.includes("ArrowLeft")) {
+    //     posX += 1;
+    // }
+    if(automatic) {
+        cloudPosX -= 0.5;
+    }
+    Clouds2.style.backgroundPosition = cloudPosX + 'px';
 }
 
 function updateGroundPosition() {
     // if(keys.includes("ArrowLeft")) {
     //     posX += 1;
     // }
-    if(automatic || keys.includes("ArrowRight")) {
+    if(automatic) {
         posX -= 2;
     }
     Ground.style.backgroundPosition = posX + 'px';
@@ -166,7 +207,7 @@ function updateObstaclePosition() {
     // if(keys.includes("ArrowLeft")) {
     //     posX += 1;
     // }
-    if(automatic || keys.includes("ArrowRight")) {
+    if(automatic) {
         ObstaclePosX -= 4;
     }
     Obstacle.style.left = ObstaclePosX+'px';
@@ -209,7 +250,7 @@ function createObstacle() {
     MaxJump = ObstacleHeight + 80;
 }
 function getScore() {
-    if(keys.includes("ArrowRight")) {
+    if(automatic) {
         score += 1;
         ScoreWrap.innerHTML = score;
     }
@@ -223,7 +264,7 @@ function randomNumberBetween(min, max) {
 }
 
 function updateRan() {
-    if(automatic || keys.includes("ArrowRight")) {
+    if(automatic) {
         if(ObstaclePosX + ObstacleWidth < 0){
             new_obstacle = true;
         }
@@ -241,6 +282,7 @@ function restart() {
     gameOver = false;
     destroyObstacle()
     createObstacle();
+    score = 0;
     run();
 }
 
